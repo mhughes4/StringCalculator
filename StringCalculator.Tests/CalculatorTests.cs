@@ -24,12 +24,14 @@ namespace Tests
             Assert.That(result, Is.EqualTo(expectedResult));
         }
 
-        [Test]
-        public void AddingNumbers_WhenTwoNumbersAreSpecified_IsSumOfNumbers()
+        [TestCase("1,1", 2)]
+        [TestCase("2,2", 4)]
+        [TestCase("99,99", 198)]
+        public void AddingNumbers_WhenTwoNumbersAreSpecified_IsSumOfNumbers(string input, int expectedResult)
         {
             var calc = new Calculator();
-            var result = calc.Add("1,1");
-            Assert.That(result, Is.EqualTo(2));
+            var result = calc.Add(input);
+            Assert.That(result, Is.EqualTo(expectedResult));
         }
     }
 }
