@@ -4,9 +4,12 @@ namespace StringCalculator
 {
     public class Calculator
     {
+        private const string NoNumbers = "";
+
         public int Add(string numbers)
         {
-            return 0;
+            var noNumbersAreProvided = numbers == NoNumbers;
+            return noNumbersAreProvided ? 0 : int.Parse(numbers);
         }
     }
 }
