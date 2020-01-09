@@ -27,7 +27,13 @@ namespace Tests
         [TestCase("1,1", 2)]
         [TestCase("2,2", 4)]
         [TestCase("99,99", 198)]
-        public void AddingNumbers_WhenTwoNumbersAreSpecified_IsSumOfNumbers(string input, int expectedResult)
+        [TestCase("1,1,1", 3)]
+        [TestCase("2,2,2", 6)]
+        [TestCase("99,99,99", 297)]
+        [TestCase("1,1,1,1", 4)]
+        [TestCase("2,2,2,2", 8)]
+        [TestCase("99,99,99,99", 396)]
+        public void AddingNumbers_WhenMultipleNumbersAreSpecified_IsSumOfNumbers(string input, int expectedResult)
         {
             var calc = new Calculator();
             var result = calc.Add(input);
