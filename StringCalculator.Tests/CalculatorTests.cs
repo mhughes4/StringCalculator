@@ -3,6 +3,7 @@ using StringCalculator;
 
 namespace Tests
 {
+    [TestFixture]
     public class CalculatorTests
     {
         [Test]
@@ -21,6 +22,14 @@ namespace Tests
             var calc = new Calculator();
             var result = calc.Add(input);
             Assert.That(result, Is.EqualTo(expectedResult));
+        }
+
+        [Test]
+        public void AddingNumbers_WhenTwoNumbersAreSpecified_IsSumOfNumbers()
+        {
+            var calc = new Calculator();
+            var result = calc.Add("1,1");
+            Assert.That(result, Is.EqualTo(2));
         }
     }
 }
