@@ -55,5 +55,13 @@ namespace Tests
             var result = calc.Add(input);
             Assert.That(result, Is.EqualTo(expectedResult));
         }
+
+        [Test]
+        public void AddingNumbers_WhenChangingDelimiter_IsSumOfNumbers()
+        {
+            var calc = new Calculator();
+            var result = calc.Add("//;\n1;2");
+            Assert.That(result, Is.EqualTo(3));
+        }
     }
 }
