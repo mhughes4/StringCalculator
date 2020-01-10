@@ -1,13 +1,13 @@
-﻿using System;
-using System.Linq;
+﻿using System.Linq;
 
 namespace StringCalculator
 {
     public class Calculator
     {
         private const string NoNumbers = "";
-        private const char NumbersDelimiter = ',';
         private const int DefaultAnswer = 0;
+        private const char CommaDelimiter = ',';
+        private const char NewLineDelimiter = '\n';
 
         public int Add(string numbers)
         {
@@ -17,7 +17,7 @@ namespace StringCalculator
 
         private static int AddNumbers(string numbers)
         {
-            var splitNumbers = numbers.Split(NumbersDelimiter);
+            var splitNumbers = numbers.Split(CommaDelimiter, NewLineDelimiter);
             return splitNumbers.Select(int.Parse).Sum();
         } 
     }
