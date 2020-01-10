@@ -40,12 +40,20 @@ namespace Tests
             Assert.That(result, Is.EqualTo(expectedResult));
         }
 
-        [Test]
-        public void AddingNumbers_WhenUsingNewLineDelimiters_IsSumOfNumbers()
+        [TestCase("1\n1", 2)]
+        [TestCase("2\n2", 4)]
+        [TestCase("99\n99", 198)]
+        [TestCase("1\n1,1", 3)]
+        [TestCase("2\n2,2", 6)]
+        [TestCase("99\n99,99", 297)]
+        [TestCase("1\n1\n1,1", 4)]
+        [TestCase("2\n2\n2,2", 8)]
+        [TestCase("99\n99\n99,99", 396)]
+        public void AddingNumbers_WhenUsingNewLineDelimiters_IsSumOfNumbers(string input, int expectedResult)
         {
             var calc = new Calculator();
-            var result = calc.Add("1\n1");
-            Assert.That(result, Is.EqualTo(2));
+            var result = calc.Add(input);
+            Assert.That(result, Is.EqualTo(expectedResult));
         }
     }
 }
