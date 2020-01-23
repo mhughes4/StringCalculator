@@ -59,20 +59,16 @@ namespace Tests
             Assert.That(result, Is.EqualTo(expectedResult));
         }
 
-        [Test]
-        public void AddingNumbers_WhenChangingDelimiter_IsSumOfNumbers()
+        [TestCase("//;\n1;2", 3)]
+        [TestCase("//;\n1;3", 4)]
+        [TestCase("//+\n1+10", 11)]
+        [TestCase("//-\n2-10", 12)]
+        [TestCase("//*\n2*10*14*5", 31)]
+        public void AddingNumbers_WhenOverridingDelimiters_IsSumOfNumbers(string input, int expectedResult)
         {
             var calc = new Calculator(DefaultAnswer, _defaultDelimiters);
-            var result = calc.Add("//;\n1;2");
-            Assert.That(result, Is.EqualTo(3));
-        }
-
-        [Test]
-        public void Foo()
-        {
-            var calc = new Calculator(DefaultAnswer, _defaultDelimiters);
-            var result = calc.Add("//;\n1;3");
-            Assert.That(result, Is.EqualTo(4));
+            var result = calc.Add(input);
+            Assert.That(result, Is.EqualTo(expectedResult));
         }
     }
 }
