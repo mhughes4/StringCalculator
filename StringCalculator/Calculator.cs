@@ -1,30 +1,55 @@
 ﻿using System;
 using System.Linq;
+using System.Text.RegularExpressions;
 
 namespace StringCalculator
 {
     public class Calculator
     {
-        private const string NoNumbers = "";
-        private const int DefaultAnswer = 0;
-        private const char CommaDelimiter = ',';
-        private const char NewLineDelimiter = '\n';
+        private readonly int _defaultAnswer;
+        private readonly char[] _defaultDelimiters;
+        private readonly string _noNumbers = string.Empty;
+        private const string DelimiterOverridePattern = @"//(.)\n(.*)";
+        private const int DelimiterOverrideIndex = 1;
+        private const int NumbersIndex = 2;
 
-        public int Add(string numbers)
+        public Calculator(int defaultAnswer, char[] defaultDelimiters)
         {
-            if (numbers.StartsWith("//;"))
-            {
-                return 3;
-            }
-
-            var noNumbersAreProvided = numbers == NoNumbers;
-            return noNumbersAreProvided ? DefaultAnswer : AddNumbers(numbers);
+            _defaultAnswer = defaultAnswer;
+            _defaultDelimiters = defaultDelimiters;
         }
 
-        private static int AddNumbers(string numbers)
+        public int Add(string input)
         {
-            var splitNumbers = numbers.Split(CommaDelimiter, NewLineDelimiter);
+            return NoInputProvided(input) ? _defaultAnswer : AddNumbers(input);
+        }
+
+        private bool NoInputProvided(string input)
+        {
+            return input == _noNumbers;
+        }
+
+        private int AddNumbers(string input)
+        {
+            var regex = new Regex(DelimiterOverridePattern);
+            var match = regex.Match(input);
+            return match.Success
+                ? AddNumbersThatAreDelimitedByOverride(match)
+                : AddNumbersThatAreDelimited(input);
+        }
+
+        private int AddNumbersThatAreDelimited(string numbers)
+        {
+            var splitNumbers = numbers.Split(_defaultDelimiters);
             return splitNumbers.Select(int.Parse).Sum();
-        } 
+        }
+
+        private static int AddNumbersThatAreDelimitedByOverride(Match match)
+        {
+            var delimiterOverride = match.Groups[DelimiterOverrideIndex].Value;
+            var numbers = match.Groups[NumbersIndex].Value;
+            var splitNumbers = numbers.Split(Convert.ToChar(delimiterOverride));
+            return splitNumbers.Select(int.Parse).Sum();
+        }
     }
 }

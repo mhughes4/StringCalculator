@@ -6,10 +6,13 @@ namespace Tests
     [TestFixture]
     public class CalculatorTests
     {
+        private readonly char[] _defaultDelimiters = new []{',', '\n'};
+        private const int DefaultAnswer = 0;
+
         [Test]
         public void AddingNumbers_WhenNoNumbersAreSpecified_IsZero()
         {
-            var calc = new Calculator();
+            var calc = new Calculator(DefaultAnswer, _defaultDelimiters);
             var result = calc.Add(string.Empty);
             Assert.That(result, Is.Zero);
         }
@@ -19,7 +22,7 @@ namespace Tests
         [TestCase("99", 99)]
         public void AddingNumbers_WhenSingleNumberIsSpecified_IsNumberSpecified(string input, int expectedResult)
         {
-            var calc = new Calculator();
+            var calc = new Calculator(DefaultAnswer, _defaultDelimiters);
             var result = calc.Add(input);
             Assert.That(result, Is.EqualTo(expectedResult));
         }
@@ -35,7 +38,7 @@ namespace Tests
         [TestCase("99,99,99,99", 396)]
         public void AddingNumbers_WhenMultipleNumbersAreSpecified_IsSumOfNumbers(string input, int expectedResult)
         {
-            var calc = new Calculator();
+            var calc = new Calculator(DefaultAnswer, _defaultDelimiters);
             var result = calc.Add(input);
             Assert.That(result, Is.EqualTo(expectedResult));
         }
@@ -51,7 +54,7 @@ namespace Tests
         [TestCase("99\n99\n99,99", 396)]
         public void AddingNumbers_WhenUsingNewLineDelimiters_IsSumOfNumbers(string input, int expectedResult)
         {
-            var calc = new Calculator();
+            var calc = new Calculator(DefaultAnswer, _defaultDelimiters);
             var result = calc.Add(input);
             Assert.That(result, Is.EqualTo(expectedResult));
         }
@@ -59,9 +62,17 @@ namespace Tests
         [Test]
         public void AddingNumbers_WhenChangingDelimiter_IsSumOfNumbers()
         {
-            var calc = new Calculator();
+            var calc = new Calculator(DefaultAnswer, _defaultDelimiters);
             var result = calc.Add("//;\n1;2");
             Assert.That(result, Is.EqualTo(3));
+        }
+
+        [Test]
+        public void Foo()
+        {
+            var calc = new Calculator(DefaultAnswer, _defaultDelimiters);
+            var result = calc.Add("//;\n1;3");
+            Assert.That(result, Is.EqualTo(4));
         }
     }
 }
